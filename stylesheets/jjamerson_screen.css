@@ -68,34 +68,33 @@ article, aside, details, figcaption, figure, footer, header, hgroup, main, menu,
 
 @font-face {
   font-family: "opensans";
-  src: url('../fonts/opensans_regular_macroman/OpenSans-Regular-webfont.woff?1428002117') format('woff'), url('../fonts/opensans_regular_macroman/OpenSans-Regular-webfont.ttf?1428002117') format('truetype'), url('../fonts/opensans_regular_macroman/OpenSans-Regular-webfont.svg?1428002117') format('svg');
+  src: url('../fonts/opensans_regular_macroman/OpenSans-Regular-webfont.woff') format('woff'), url('../fonts/opensans_regular_macroman/OpenSans-Regular-webfont.ttf?1428002117') format('truetype'), url('../fonts/opensans_regular_macroman/OpenSans-Regular-webfont.svg?1428002117') format('svg');
 }
 @font-face {
   font-family: "opensans-bold";
-  src: url('../fonts/opensans_bold_macroman/OpenSans-Bold-webfont.woff?1428002117') format('woff'), url('../fonts/opensans_bold_macroman/OpenSans-Bold-webfont.ttf?1428002117') format('truetype'), url('../fonts/opensans_bold_macroman/OpenSans-Bold-webfont.svg?1428002117') format('svg');
+  src: url('../fonts/opensans_bold_macroman/OpenSans-Bold-webfont.woff') format('woff'), url('../fonts/opensans_bold_macroman/OpenSans-Bold-webfont.ttf?1428002117') format('truetype'), url('../fonts/opensans_bold_macroman/OpenSans-Bold-webfont.svg?1428002117') format('svg');
   font-weight: bold;
 }
 @font-face {
   font-family: "opensans-italic";
-  src: url('../fonts/opensans_italic_macroman/OpenSans-Italic-webfont.woff?1428002117') format('woff'), url('../fonts/opensans_italic_macroman/OpenSans-Italic-webfont.ttf?1428002117') format('truetype'), url('../fonts/opensans_italic_macroman/OpenSans-Italic-webfont.svg?1428002117') format('svg');
+  src: url('../fonts/opensans_italic_macroman/OpenSans-Italic-webfont.woff') format('woff'), url('../fonts/opensans_italic_macroman/OpenSans-Italic-webfont.ttf?1428002117') format('truetype'), url('../fonts/opensans_italic_macroman/OpenSans-Italic-webfont.svg?1428002117') format('svg');
   font-weight: normal;
   font-style: "italic, oblique";
 }
 @font-face {
   font-family: "opensans-bold-italic";
-  src: url('../fonts/opensans_bolditalic_macroman/OpenSans-BoldItalic-webfont.woff?1428002117') format('woff'), url('../fonts/opensans_bolditalic_macroman/OpenSans-BoldItalic-webfont.ttf?1428002117') format('truetype'), url('../fonts/opensans_bolditalic_macroman/OpenSans-BoldItalic-webfont.svg?1428002117') format('svg');
+  src: url('../fonts/opensans_bolditalic_macroman/OpenSans-BoldItalic-webfont.woff') format('woff'), url('../fonts/opensans_bolditalic_macroman/OpenSans-BoldItalic-webfont.ttf?1428002117') format('truetype'), url('../fonts/opensans_bolditalic_macroman/OpenSans-BoldItalic-webfont.svg?1428002117') format('svg');
   font-weight: bold;
   font-style: "italic, oblique";
 }
 @font-face {
   font-family: "opensans-light";
-  src: url('../fonts/opensans_light_macroman/OpenSans-Light-webfont.woff?1428002117') format('woff'), url('../fonts/opensans_light_macroman/OpenSans-Light-webfont.ttf?1428002117') format('truetype'), url('../fonts/opensans_light_macroman/OpenSans-Light-webfont.svg?1428002117') format('svg');
+  src: url('../fonts/opensans_light_macroman/OpenSans-Light-webfont.woff') format('woff'), url('../fonts/opensans_light_macroman/OpenSans-Light-webfont.ttf?1428002117') format('truetype'), url('../fonts/opensans_light_macroman/OpenSans-Light-webfont.svg?1428002117') format('svg');
 }
 /* This is a class in h5bp that hides elements but keeps them
    accessible to screen readers, packaged as a mixin: */
 .dark-gray-bg, .gray-bg {
   background: #353535;
-  background: #353535 url('data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz4gPHN2ZyB2ZXJzaW9uPSIxLjEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGRlZnM+PGxpbmVhckdyYWRpZW50IGlkPSJncmFkIiBncmFkaWVudFVuaXRzPSJvYmplY3RCb3VuZGluZ0JveCIgeDE9IjAuMCIgeTE9IjAuNSIgeDI9IjEuMCIgeTI9IjAuNSI+PHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iIzM1MzUzNSIvPjxzdG9wIG9mZnNldD0iMjklIiBzdG9wLWNvbG9yPSIjM2QzZDNkIi8+PHN0b3Agb2Zmc2V0PSI2OCUiIHN0b3AtY29sb3I9IiM0ZDRkNGQiLz48c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiM1ODU2NTciLz48L2xpbmVhckdyYWRpZW50PjwvZGVmcz48cmVjdCB4PSIwIiB5PSIwIiB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSJ1cmwoI2dyYWQpIiAvPjwvc3ZnPiA=') repeat;
   background: #353535 -webkit-gradient(linear, 0% 50%, 100% 50%, color-stop(0%, #353535), color-stop(29%, #3d3d3d), color-stop(68%, #4d4d4d), color-stop(100%, #585657)) repeat;
   background: #353535 -moz-linear-gradient(left center, #353535 0%, #3d3d3d 29%, #4d4d4d 68%, #585657 100%) repeat;
   background: #353535 -webkit-linear-gradient(left center, #353535 0%, #3d3d3d 29%, #4d4d4d 68%, #585657 100%) repeat;
@@ -5508,50 +5507,6 @@ table.cke_editor .cke_toolbar .cke_button {
   -ms-transform: translate3d(0px, 3000px, 0px);
   -webkit-transform: translate3d(0px, 3000px, 0px);
   transform: translate3d(0px, 3000px, 0px);
-}
-
-.workbench-unpublished #page-content {
-  position: relative;
-  border-right: 5px solid #daa;
-}
-.workbench-unpublished .region-content {
-  position: relative;
-}
-.workbench-unpublished .region-content:after {
-  -moz-transform: rotate(-90deg);
-  -ms-transform: rotate(-90deg);
-  -webkit-transform: rotate(-90deg);
-  transform: rotate(-90deg);
-  color: #daa;
-  content: 'Draft';
-  display: block;
-  font-size: 15px;
-  height: 20px;
-  letter-spacing: 4px;
-  position: absolute;
-  right: -38px;
-  top: 0%;
-}
-.workbench-unpublished .quicktabs-tabs {
-  border-bottom: 1px solid #ccc;
-}
-.workbench-unpublished .quicktabs-tabs li {
-  border: 1px solid #ddd;
-}
-.workbench-unpublished .quicktabs-tabs li:before {
-  -moz-box-shadow: none !important;
-  -webkit-box-shadow: none !important;
-  box-shadow: none !important;
-  background: none !important;
-}
-.workbench-unpublished .field-name-field-related-links {
-  border-top: 1px dotted #ccc;
-  margin-top: 12px;
-  padding-top: 10px;
-}
-.workbench-unpublished .field .field-label {
-  font-weight: normal;
-  font-family: "opensans-bold", ​ Arial, ​ Helvetica, ​ sans-serif;
 }
 
 html.CSS1Compat {
