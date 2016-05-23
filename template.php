@@ -182,40 +182,6 @@ function jjamerson_preprocess_page(&$variables) {
 
 }
 
-function jjamerson_process_image_style(&$variables) {
-  //_jjamerson_update_image($variables);
-}
-
-function jjamerson_process_image(&$variables) {
-  // Check to make sure the image wasn't run through image_style() or another function which might cause
-  // the path to be converted to an absolute one.
-  if ( (strpos($variables['path'], 'http') === false) ) {
-    //_jjamerson_update_image($variables);
-  }
-}
-
-// Add URL for smaller image size as an attribute, to be picked up and swapped out in image.tpl.php file
-// (run image_styles() to see available options)
-function _jjamerson_update_image(&$variables) {
-  // if the image has been resized by an image style to a smaller size, leave it alone:
-  if ( ($variables['width'] < 950) && isset($variables['attributes']['small-src']) ) {
-    unset($variables['attributes']['small-src']);
-    return false;
-  }
-
-  $image_uri = drupal_realpath($variables['path']);
-  $image_size = getimagesize ( $image_uri );
-  if ($image_size) {
-    if ($image_size[0] > 1000)  {
-      $variables['attributes']['medium-src'] = image_style_url('scale_to_970px_width', $variables['path']);
-    }
-    if ($image_size[0] > 500)  {
-      $variables['attributes']['small-src'] = image_style_url('scale_to_480px_width', $variables['path']);
-    }
-  }
-}
-
-
 function jjamerson_preprocess_region(&$region) {
   if ( isset($node['language']) ) {
     $lang = $node['language'];
@@ -473,22 +439,3 @@ function jjamerson_menu_link($variables) {
   $link = l($link_text . $description, $href, $options);
   return '<li' . drupal_attributes($element['#attributes']) . '>' . $link . $sub_menu . "</li>\n";
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

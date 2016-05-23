@@ -19,6 +19,7 @@
  * @ingroup views_templates
  */
 
+<<<<<<< HEAD
 function _missedSession($username, $bypassed, $attended, $cancelled){
  if($bypassed) return $bypassed;
  if($username && !$attended && !$cancelled) return 'Missed';
@@ -96,6 +97,59 @@ if(array_key_exists($nid, $rowsSorted)){
 }
 }
 
+=======
+ $nid; $rowsSorted = array(); $nodeCount; $userCount; $attendanceCount; $cancelCount; $confirmedCount; $totalFeedback;
+ foreach($rows as $rowCount => &$pRow){
+	$nid = $pRow['nid'];
+  if(array_key_exists($nid, $rowsSorted)){
+
+		$userCount = $userCount + ($pRow['user_email'] ? 1 : 0);
+		$rowsSorted[$nid]['user_email'] .= '<br />'.$pRow['user_email'];
+
+		$attendanceCount = $attendanceCount + ($pRow['attended'] ? 1 : 0);
+		$rowsSorted[$nid]['attended'] .= '<br />'.$pRow['attended'];
+
+		$cancelCount = $cancelCount + ($pRow['cancelled'] ? 1 : 0);
+		$rowsSorted[$nid]['cancelled'] .= '<br />'.$pRow['cancelled'];
+
+		$rowsSorted[$nid]['bypassed'] .= '<br />'.$pRow['bypassed'];
+		$rowsSorted[$nid]['nothing_1'] .= '<br />'.$pRow['nothing_1'];
+
+		$confirmedCount = $confirmedCount + ($pRow['confirmed'] ? 1 : 0);
+		$rowsSorted[$nid]['confirmed'] .= '<br />'.$pRow['confirmed'];
+	}else{
+		$rowsSorted[$nid]['nid'] = $pRow['nid'];
+		$rowsSorted[$nid]['field_date_1'] = $pRow['field_date_1'];
+		$rowsSorted[$nid]['field_date'] = $pRow['field_date'];
+		$rowsSorted[$nid]['title'] = $pRow['title'];
+		$rowsSorted[$nid]['registration_available_slots'] = $pRow['registration_available_slots'] ? 'Available' : 'No';
+
+		$userCount = $userCount + ($pRow['user_email'] ? 1 : 0);
+		$rowsSorted[$nid]['user_email'] = $pRow['user_email'];
+
+		$attendanceCount = $attendanceCount + ($pRow['attended'] ? 1 : 0);
+		$rowsSorted[$nid]['attended'] = $pRow['attended'];
+
+		$cancelCount = $cancelCount + ($pRow['cancelled'] ? 1 : 0);
+		$rowsSorted[$nid]['cancelled'] = $pRow['cancelled'];
+
+		$rowsSorted[$nid]['bypassed'] = $pRow['bypassed'];
+		$rowsSorted[$nid]['nothing_1'] = $pRow['nothing_1'];
+
+		$confirmedCount = $confirmedCount + ($pRow['confirmed'] ? 1 : 0);
+		$rowsSorted[$nid]['confirmed'] = $pRow['confirmed'];
+
+		$totalFeedback = $totalFeedback + $pRow['comment_count'];
+		$rowsSorted[$nid]['comment_count'] = $pRow['comment_count'];
+		$rowsSorted[$nid]['views_conditional'] = $pRow['views_conditional'];
+
+		$nodeCount++;
+	}
+ }
+
+ //dsm($rows);
+ dsm($rowsSorted);
+>>>>>>> 0f48824fe57ce6a962daa58a5d1fa8dbe93791e6
 ?>
 <table <?php if ($classes) { print 'class="'. $classes . '" '; } ?><?php print $attributes; ?>>
    <?php if (!empty($title) || !empty($caption)) : ?>
@@ -130,6 +184,7 @@ if(array_key_exists($nid, $rowsSorted)){
       </tr>
     <?php endforeach; ?>
 			<tr class="totalRow">
+<<<<<<< HEAD
 				<td class="totalCol col-1"><b><?php print $nodeCount; ?></b> (Sessions)</td>
 				<td class="totalCol col-2"><?php array_walk($dates, "_p_kv"); ?></td>
 				<td class="totalCol col-3"><?php array_walk($times, "_p_kv"); ?></td>
@@ -142,6 +197,21 @@ if(array_key_exists($nid, $rowsSorted)){
 				<td class="totalCol col-10"><b><?php print $confirmedCount; ?></b> (Confirmed)</td>
 				<td class="totalCol col-11"><b><?php print $totalFeedback; ?></b> (Feedback)</td>
 				<td class="totalCol col-12"><b><?php print round(($availableCount['X'] / $nodeCount) * 100, 1) ?>%</b> (Used/Sessions)</td>
+=======
+				<td class="totalCol col-1"><b><?php print $nodeCount; ?></b> (Session Count)</td>
+				<td class="totalCol col-2"></td>
+				<td class="totalCol col-3"></td>
+				<td class="totalCol col-4"></td>
+				<td class="totalCol col-5"></td>
+				<td class="totalCol col-6"><b><?php print $userCount; ?></b> (All Users)</td>
+				<td class="totalCol col-7"><b><?php print $attendanceCount; ?></b> (Total Attended)</td>
+				<td class="totalCol col-8"><b><?php print $cancelCount; ?></b> (Total Cancelled)</td>
+				<td class="totalCol col-9"></td>
+				<td class="totalCol col-10"></td>
+				<td class="totalCol col-11"><b><?php print $confirmedCount; ?></b> (Total Confirmed)</td>
+				<td class="totalCol col-12"><b><?php print $totalFeedback; ?></b> (Total Feedback)</td>
+				<td class="totalCol col-13"></td>
+>>>>>>> 0f48824fe57ce6a962daa58a5d1fa8dbe93791e6
 
   </tbody>
 </table>

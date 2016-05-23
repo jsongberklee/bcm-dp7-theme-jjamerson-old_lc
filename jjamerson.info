@@ -5,8 +5,8 @@ core = 7.x
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ; Custom stylesheets:
-stylesheets[screen][] = stylesheets/jjamerson_screen.css
 stylesheets[print][] = stylesheets/jjamerson_print.css
+stylesheets[screen][] = stylesheets/jjamerson_screen.css
 stylesheets[screen][] = _learningcenter/learningcenter_screen.css
 
 ; Custom JS:
