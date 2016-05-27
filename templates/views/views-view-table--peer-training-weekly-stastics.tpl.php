@@ -116,19 +116,13 @@ if(array_key_exists($nid, $rowsSorted)){
     <?php foreach ($rowsSorted as $row_count => $row): ?>
       <tr <?php if ($row_classes[$row_count]) { print 'class="' . implode(' ', $row_classes[$row_count]) .'"';  } ?>>
         <?php foreach ($row as $field => $content): ?>
-
-        	<?php
-	        	if($row['matched']){
-		        	//dsm($field);
-	        	}
-	        ?>
-
-          <td <?php if ($field_classes[$field][$row_count]) { print 'class="'. $field_classes[$field][$row_count] . '" '; } ?><?php print drupal_attributes($field_attributes[$field][$row_count]); ?>>
+          <td <?php if ($field_classes[$field][$row_count]) { print 'class="'. $field_classes[$field][$row_count] . '" '; } ?><?php //print drupal_attributes($field_attributes[$field][$row_count]); ?>>
             <?php print $content; ?>
           </td>
         <?php endforeach; ?>
       </tr>
     <?php endforeach; ?>
+
 			<tr class="totalRow">
 				<td class="totalCol col-1"><b><?php print $nodeCount; ?></b> (Sessions)</td>
 				<td class="totalCol col-2"><?php array_walk($dates, "_p_kv"); ?></td>
