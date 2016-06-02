@@ -24,78 +24,119 @@ function _missedSession($username, $bypassed, $attended, $cancelled){
  if($username && !$attended && !$cancelled) return 'Missed';
  return '';
 }
-function _p_kv($arr, $k){
- print $k.': <b>'.$arr.'</b><br />';
+function _p_kv($v, $k){
+ print $k.': <b>'.$v.'</b><br />';
+}
+function _get_topic($rid){
+	if($rid) {
+		$re = entity_load('node_registration', array($rid));
+		$ret = field_view_field('node_registration', $re[$rid], 'field_topics', array('type'=>'ds_taxonomy_separator', 'label'=>'hidden'));
+		return strip_tags(render($ret));
+	}else{
+		return '';
+	}
+}
+function _update_topics($v, $k){
+	global $topics;
+	if(array_key_exists($v, $topics)) $topics[$v]++; else $topics[$v] = 1;
+	//dsm($topics);
+	return $topics;
 }
 
-$nid; $rowsSorted = array(); $nodeCount; $userCount; $attendanceCount; $cancelCount; $confirmedCount; $totalFeedback; $missedCount; $availableCount = array('O' => 0, 'X' => '0'); $dates = array(); $times = array(); $trainers = array();
+$nid; $rowsSorted = array(); $nodeCount; $userCount; $attendanceCount; $cancelCount; $confirmedCount; $totalFeedback; $missedCount; $availableCount = array('O' => 0, 'X' => '0'); $dates = array(); $times = array(); $trainers = array(); $topic; $topics = array();
 foreach($rows as $rowCount => &$pRow){
-$nid = $pRow['nid'];
-if(array_key_exists($nid, $rowsSorted)){
+	$nid = strip_tags($pRow['nid']);
 
-	$userCount = $userCount + ($pRow['user_email'] ? 1 : 0);
-	$rowsSorted[$nid]['user_email'] .= '<br />'.$pRow['user_email'];
+	// sort topic totals
+	$topic = _get_topic($pRow['registration_id']);
+	$atop = array_map('trim', explode(',', $topic));
+	if(!empty($atop[0])){
+		$topics = end(array_map('_update_topics', $atop));
+	}
 
-	$attendanceCount = $attendanceCount + ($pRow['attended'] ? 1 : 0);
-	$rowsSorted[$nid]['attended'] .= '<br />'.$pRow['attended'];
+	$row_classes[$nid] = $row_classes[$rowCount]; unset($row_classes[$rowCount]);
 
-	$cancelCount = $cancelCount + ($pRow['cancelled'] ? 1 : 0);
-	$rowsSorted[$nid]['cancelled'] .= '<br />'.$pRow['cancelled'];
+	if(array_key_exists($nid, $rowsSorted)){
 
-	$missedInfo = _missedSession($pRow['user_email'], $pRow['bypassed'], $pRow['attended'],$pRow['cancelled']);
-	$missedCount = $missedCount + ($missedInfo ? 1 : 0);
-	$rowsSorted[$nid]['bypassed'] = '<br />'.$missedInfo;
+		$userCount = $userCount + ($pRow['user_email'] ? 1 : 0);
+		$rowsSorted[$nid]['user_email'] .= '<br />'.$pRow['user_email'];
 
-	$confirmedCount = $confirmedCount + ($pRow['confirmed'] ? 1 : 0);
-	$rowsSorted[$nid]['confirmed'] .= '<br />'.$pRow['confirmed'];
-}else{
+		$attendanceCount = $attendanceCount + ($pRow['attended'] ? 1 : 0);
+		$rowsSorted[$nid]['attended'] .= '<br />'.$pRow['attended'];
 
-	$rowsSorted[$nid]['nid'] = $pRow['nid'];
+		$cancelCount = $cancelCount + ($pRow['cancelled'] ? 1 : 0);
+		$rowsSorted[$nid]['cancelled'] .= '<br />'.$pRow['cancelled'];
 
-	$sDate = strip_tags($pRow['field_date_1']);
-	$rowsSorted[$nid]['field_date_1'] = $sDate;
-	$sDate = explode(' ', $sDate)[0];
-	if(array_key_exists($sDate, $dates)) $dates[$sDate]++; else $dates[$sDate] = 1;
+		$missedInfo = _missedSession($pRow['user_email'], $pRow['bypassed'], $pRow['attended'],$pRow['cancelled']);
+		$missedCount = $missedCount + ($missedInfo ? 1 : 0);
+		$rowsSorted[$nid]['bypassed'] = '<br />'.$missedInfo;
 
-	$sTime = strip_tags($pRow['field_date']);
-	$rowsSorted[$nid]['field_date'] = $sTime;
-	$sTime = str_replace(':00', '', $sTime);
-	if(array_key_exists($sTime, $times)) $times[$sTime]++; else $times[$sTime] = 1;
+		$confirmedCount = $confirmedCount + ($pRow['confirmed'] ? 1 : 0);
+		$rowsSorted[$nid]['confirmed'] .= '<br />'.$pRow['confirmed'];
 
+		$rowsSorted[$nid]['registration_id'] .= '<br />'.$topic;
+	}else{
 
-	$sTrainer = $pRow['title'];
-	$rowsSorted[$nid]['title'] = $sTrainer;
-	$sTrainer = explode(' ', $sTrainer)[0];
-	if(array_key_exists($sTrainer, $trainers)) $trainers[$sTrainer]++; else $trainers[$sTrainer] = 1;
+		$rowsSorted[$nid]['nid'] = $pRow['nid'];
+		$field_classes['nid'][$nid] = $field_classes['nid'][$rowCount]; unset($field_classes['nid'][$rowCount]);
 
-	$avalInfo = $pRow['registration_available_slots'] ? 'O' : 'X';
-	$avalInfo == 'O' ? $availableCount['O']++ : $availableCount['X']++;
-	$rowsSorted[$nid]['registration_available_slots'] = $avalInfo;
+		$sDate = strip_tags($pRow['field_date_1']);
+		$rowsSorted[$nid]['field_date_1'] = $sDate;
+		$sDate = explode(' ', $sDate)[0];
+		if(array_key_exists($sDate, $dates)) $dates[$sDate]++; else $dates[$sDate] = 1;
+		$field_classes['field_date_1'][$nid] = $field_classes['field_date_1'][$rowCount]; unset($field_classes['field_date_1'][$rowCount]);
 
-	$userCount = $userCount + ($pRow['user_email'] ? 1 : 0);
-	$rowsSorted[$nid]['user_email'] = $pRow['user_email'];
+		$sTime = strip_tags($pRow['field_date']);
+		$rowsSorted[$nid]['field_date'] = $pRow['field_date'];
+		$sTime = str_replace(':00', '', $sTime);
+		if(array_key_exists($sTime, $times)) $times[$sTime]++; else $times[$sTime] = 1;
+		$field_classes['field_date'][$nid] = $field_classes['field_date'][$rowCount]; unset($field_classes['field_date'][$rowCount]);
 
-	$attendanceCount = $attendanceCount + ($pRow['attended'] ? 1 : 0);
-	$rowsSorted[$nid]['attended'] = $pRow['attended'];
+		$sTrainer = $pRow['title'];
+		$rowsSorted[$nid]['title'] = $sTrainer;
+		$sTrainer = explode(' ', $sTrainer)[0];
+		if(array_key_exists($sTrainer, $trainers)) $trainers[$sTrainer]++; else $trainers[$sTrainer] = 1;
+		$field_classes['title'][$nid] = $field_classes['title'][$rowCount]; unset($field_classes['title'][$rowCount]);
 
-	$cancelCount = $cancelCount + ($pRow['cancelled'] ? 1 : 0);
-	$rowsSorted[$nid]['cancelled'] = $pRow['cancelled'];
+		$avalInfo = $pRow['registration_available_slots'] ? 'O' : 'X';
+		$avalInfo == 'O' ? $availableCount['O']++ : $availableCount['X']++;
+		$rowsSorted[$nid]['registration_available_slots'] = $avalInfo;
+		$field_classes['registration_available_slots'][$nid] = $field_classes['registration_available_slots'][$rowCount]; unset($field_classes['registration_available_slots'][$rowCount]);
 
-	$missedInfo = _missedSession($pRow['user_email'], $pRow['bypassed'], $pRow['attended'],$pRow['cancelled']);
-	$missedCount = $missedCount + ($missedInfo ? 1 : 0);
-	$rowsSorted[$nid]['bypassed'] = $missedInfo;
+		$userCount = $userCount + ($pRow['user_email'] ? 1 : 0);
+		$rowsSorted[$nid]['user_email'] = $pRow['user_email'];
+		$field_classes['user_email'][$nid] = $field_classes['user_email'][$rowCount]; unset($field_classes['user_email'][$rowCount]);
 
-	$confirmedCount = $confirmedCount + ($pRow['confirmed'] ? 1 : 0);
-	$rowsSorted[$nid]['confirmed'] = $pRow['confirmed'];
+		$attendanceCount = $attendanceCount + ($pRow['attended'] ? 1 : 0);
+		$rowsSorted[$nid]['attended'] = $pRow['attended'];
+		$field_classes['attended'][$nid] = $field_classes['attended'][$rowCount]; unset($field_classes['attended'][$rowCount]);
 
-	$totalFeedback = $totalFeedback + $pRow['comment_count'];
-	$rowsSorted[$nid]['comment_count'] = $pRow['comment_count'];
-	$rowsSorted[$nid]['views_conditional'] = $pRow['views_conditional'];
+		$cancelCount = $cancelCount + ($pRow['cancelled'] ? 1 : 0);
+		$rowsSorted[$nid]['cancelled'] = $pRow['cancelled'];
+		$field_classes['cancelled'][$nid] = $field_classes['cancelled'][$rowCount]; unset($field_classes['cancelled'][$rowCount]);
 
-	$nodeCount++;
+		$missedInfo = _missedSession($pRow['user_email'], $pRow['bypassed'], $pRow['attended'],$pRow['cancelled']);
+		$missedCount = $missedCount + ($missedInfo ? 1 : 0);
+		$rowsSorted[$nid]['bypassed'] = $missedInfo;
+		$field_classes['bypassed'][$nid] = $field_classes['bypassed'][$rowCount]; unset($field_classes['bypassed'][$rowCount]);
+
+		$confirmedCount = $confirmedCount + ($pRow['confirmed'] ? 1 : 0);
+		$rowsSorted[$nid]['confirmed'] = $pRow['confirmed'];
+		$field_classes['confirmed'][$nid] = $field_classes['confirmed'][$rowCount]; unset($field_classes['confirmed'][$rowCount]);
+
+		$totalFeedback = $totalFeedback + $pRow['comment_count'];
+		$rowsSorted[$nid]['comment_count'] = $pRow['comment_count'];
+		$field_classes['comment_count'][$nid] = $field_classes['comment_count'][$rowCount]; unset($field_classes['comment_count'][$rowCount]);
+		$rowsSorted[$nid]['views_conditional'] = $pRow['views_conditional'];
+		$field_classes['views_conditional'][$nid] = $field_classes['views_conditional'][$rowCount]; unset($field_classes['views_conditional'][$rowCount]);
+		$rowsSorted[$nid]['registration_id'] = $topic;
+		$field_classes['registration_id'][$nid] = $field_classes['registration_id'][$rowCount]; unset($field_classes['registration_id'][$rowCount]);
+
+		$nodeCount++;
+	}
 }
-}
 
+ksort($topics); ksort($trainers); ksort($times);
 ?>
 <table <?php if ($classes) { print 'class="'. $classes . '" '; } ?><?php print $attributes; ?>>
    <?php if (!empty($title) || !empty($caption)) : ?>
@@ -136,6 +177,7 @@ if(array_key_exists($nid, $rowsSorted)){
 				<td class="totalCol col-10"><b><?php print $confirmedCount; ?></b> (Confirmed)</td>
 				<td class="totalCol col-11"><b><?php print $totalFeedback; ?></b> (Feedback)</td>
 				<td class="totalCol col-12"><b><?php print round(($availableCount['X'] / $nodeCount) * 100, 1) ?>%</b> (Used/Sessions)</td>
+				<td class="totalCol col-13"><?php array_walk($topics, "_p_kv"); ?></td>
 
   </tbody>
 </table>
