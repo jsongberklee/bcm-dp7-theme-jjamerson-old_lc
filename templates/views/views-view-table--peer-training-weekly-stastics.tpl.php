@@ -25,7 +25,10 @@ function _missedSession($username, $bypassed, $attended, $cancelled){
  return '';
 }
 function _p_kv($v, $k){
- print $k.': <b>'.$v.'</b><br />';
+		print $k.': <b>'.$v.'</b><br />';
+}
+function _walk_dates($v, $k){
+		print $k.': <b>'.$v['attend'].'/'.$v['total'].'</b><br />';
 }
 function _get_topic($rid){
 	if($rid) {
@@ -56,22 +59,33 @@ foreach($rows as $rowCount => &$pRow){
 
 	$row_classes[$nid] = $row_classes[$rowCount]; unset($row_classes[$rowCount]);
 
+	$isAttended = $pRow['attended'] ? 1 : 0;
+	$attendanceCount = $attendanceCount + $isAttended;
+	$cancelCount = $cancelCount + ($pRow['cancelled'] ? 1 : 0);
+	$confirmedCount = $confirmedCount + ($pRow['confirmed'] ? 1 : 0);
+	$missedInfo = _missedSession($pRow['user_email'], $pRow['bypassed'], $pRow['attended'],$pRow['cancelled']);
+	$missedCount = $missedCount + ($missedInfo ? 1 : 0);
+
+	$sDate = strip_tags($pRow['field_date_1']);
+	$aDate = explode(' ', $sDate)[0];
+	$dates[$aDate]['attend'] += $isAttended;
+
 	if(array_key_exists($nid, $rowsSorted)){
 
 		$userCount = $userCount + ($pRow['user_email'] ? 1 : 0);
 		$rowsSorted[$nid]['user_email'] .= '<br />'.$pRow['user_email'];
 
-		$attendanceCount = $attendanceCount + ($pRow['attended'] ? 1 : 0);
+		//$attendanceCount = $attendanceCount + ($pRow['attended'] ? 1 : 0);
 		$rowsSorted[$nid]['attended'] .= '<br />'.$pRow['attended'];
 
-		$cancelCount = $cancelCount + ($pRow['cancelled'] ? 1 : 0);
+		//$cancelCount = $cancelCount + ($pRow['cancelled'] ? 1 : 0);
 		$rowsSorted[$nid]['cancelled'] .= '<br />'.$pRow['cancelled'];
 
-		$missedInfo = _missedSession($pRow['user_email'], $pRow['bypassed'], $pRow['attended'],$pRow['cancelled']);
-		$missedCount = $missedCount + ($missedInfo ? 1 : 0);
+		//$missedInfo = _missedSession($pRow['user_email'], $pRow['bypassed'], $pRow['attended'],$pRow['cancelled']);
+		//$missedCount = $missedCount + ($missedInfo ? 1 : 0);
 		$rowsSorted[$nid]['bypassed'] = '<br />'.$missedInfo;
 
-		$confirmedCount = $confirmedCount + ($pRow['confirmed'] ? 1 : 0);
+		//$confirmedCount = $confirmedCount + ($pRow['confirmed'] ? 1 : 0);
 		$rowsSorted[$nid]['confirmed'] .= '<br />'.$pRow['confirmed'];
 
 		$rowsSorted[$nid]['registration_id'] .= '<br />'.$topic;
@@ -80,10 +94,22 @@ foreach($rows as $rowCount => &$pRow){
 		$rowsSorted[$nid]['nid'] = $pRow['nid'];
 		$field_classes['nid'][$nid] = $field_classes['nid'][$rowCount]; unset($field_classes['nid'][$rowCount]);
 
+		if(array_key_exists($aDate, $dates)){
+			$dates[$aDate]['total']++;
+		}else{
+			$dates[$aDate]['total'] = 1;
+		}
+/*
 		$sDate = strip_tags($pRow['field_date_1']);
 		$rowsSorted[$nid]['field_date_1'] = $sDate;
 		$sDate = explode(' ', $sDate)[0];
-		if(array_key_exists($sDate, $dates)) $dates[$sDate]++; else $dates[$sDate] = 1;
+		if(array_key_exists($sDate, $dates)){
+			$dates[$sDate]['total']++;
+		}else{
+			$dates[$sDate]['total'] = 1;
+		}
+*/
+		$rowsSorted[$nid]['field_date_1'] = $sDate;
 		$field_classes['field_date_1'][$nid] = $field_classes['field_date_1'][$rowCount]; unset($field_classes['field_date_1'][$rowCount]);
 
 		$sTime = strip_tags($pRow['field_date']);
@@ -107,20 +133,20 @@ foreach($rows as $rowCount => &$pRow){
 		$rowsSorted[$nid]['user_email'] = $pRow['user_email'];
 		$field_classes['user_email'][$nid] = $field_classes['user_email'][$rowCount]; unset($field_classes['user_email'][$rowCount]);
 
-		$attendanceCount = $attendanceCount + ($pRow['attended'] ? 1 : 0);
+		//$attendanceCount = $attendanceCount + ($pRow['attended'] ? 1 : 0);
 		$rowsSorted[$nid]['attended'] = $pRow['attended'];
 		$field_classes['attended'][$nid] = $field_classes['attended'][$rowCount]; unset($field_classes['attended'][$rowCount]);
 
-		$cancelCount = $cancelCount + ($pRow['cancelled'] ? 1 : 0);
+		//$cancelCount = $cancelCount + ($pRow['cancelled'] ? 1 : 0);
 		$rowsSorted[$nid]['cancelled'] = $pRow['cancelled'];
 		$field_classes['cancelled'][$nid] = $field_classes['cancelled'][$rowCount]; unset($field_classes['cancelled'][$rowCount]);
 
-		$missedInfo = _missedSession($pRow['user_email'], $pRow['bypassed'], $pRow['attended'],$pRow['cancelled']);
-		$missedCount = $missedCount + ($missedInfo ? 1 : 0);
+		//$missedInfo = _missedSession($pRow['user_email'], $pRow['bypassed'], $pRow['attended'],$pRow['cancelled']);
+		//$missedCount = $missedCount + ($missedInfo ? 1 : 0);
 		$rowsSorted[$nid]['bypassed'] = $missedInfo;
 		$field_classes['bypassed'][$nid] = $field_classes['bypassed'][$rowCount]; unset($field_classes['bypassed'][$rowCount]);
 
-		$confirmedCount = $confirmedCount + ($pRow['confirmed'] ? 1 : 0);
+		//$confirmedCount = $confirmedCount + ($pRow['confirmed'] ? 1 : 0);
 		$rowsSorted[$nid]['confirmed'] = $pRow['confirmed'];
 		$field_classes['confirmed'][$nid] = $field_classes['confirmed'][$rowCount]; unset($field_classes['confirmed'][$rowCount]);
 
@@ -137,6 +163,7 @@ foreach($rows as $rowCount => &$pRow){
 }
 
 ksort($topics); ksort($trainers); ksort($times);
+dsm($dates);
 ?>
 <table <?php if ($classes) { print 'class="'. $classes . '" '; } ?><?php print $attributes; ?>>
    <?php if (!empty($title) || !empty($caption)) : ?>
@@ -166,7 +193,7 @@ ksort($topics); ksort($trainers); ksort($times);
 
 			<tr class="totalRow">
 				<td class="totalCol col-1"><b><?php print $nodeCount; ?></b> (Sessions)</td>
-				<td class="totalCol col-2"><?php array_walk($dates, "_p_kv"); ?></td>
+				<td class="totalCol col-2"><?php array_walk($dates, "_walk_dates"); ?></td>
 				<td class="totalCol col-3"><?php array_walk($times, "_p_kv"); ?></td>
 				<td class="totalCol col-4"><?php array_walk($trainers, "_p_kv"); ?></td>
 				<td class="totalCol col-5"><b><?php print $availableCount['O']; ?></b> (Available)<br /><b><?php print $availableCount['X']; ?></b> (Used)</td>
