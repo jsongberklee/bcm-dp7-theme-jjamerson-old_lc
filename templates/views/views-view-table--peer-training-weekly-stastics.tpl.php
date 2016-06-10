@@ -207,9 +207,9 @@ ksort($topics); ksort($trainers); ksort($times);
 
 			<tr class="totalRow">
 				<td class="totalCol col-1"><b><?php print $nodeCount; ?></b> (Sessions)</td>
-				<td class="totalCol col-2" style="text-align: right;"><?php array_walk($dates, "_display_attendance_vs_total"); ?></td>
-				<td class="totalCol col-3" style="text-align: right;"><?php array_walk($times, "_display_attendance_vs_total"); ?></td>
-				<td class="totalCol col-4" style="text-align: right;"><?php array_walk($trainers, "_display_attendance_vs_total"); ?></td>
+				<td class="totalCol col-2" style="text-align: right; white-space:nowrap;"><?php array_walk($dates, "_display_attendance_vs_total"); ?></td>
+				<td class="totalCol col-3" style="text-align: right; white-space:nowrap;"><?php array_walk($times, "_display_attendance_vs_total"); ?></td>
+				<td class="totalCol col-4" style="text-align: right; white-space:nowrap;"><?php array_walk($trainers, "_display_attendance_vs_total"); ?></td>
 				<td class="totalCol col-5"><b><?php print $availableCount['O']; ?></b> (Available)<br /><b><?php print $availableCount['X']; ?></b> (Used)</td>
 				<td class="totalCol col-6"><b><?php print $userCount; ?></b> (Users)</td>
 				<td class="totalCol col-7"><b><?php print $attendanceCount; ?></b> (Attended)</td>
@@ -218,7 +218,7 @@ ksort($topics); ksort($trainers); ksort($times);
 				<td class="totalCol col-10"><b><?php print $confirmedCount; ?></b> (Confirmed)</td>
 				<td class="totalCol col-11"><b><?php print $totalFeedback; ?></b> (Feedback)</td>
 				<td class="totalCol col-12"><b><?php print round(($availableCount['X'] / $nodeCount) * 100, 1) ?>%</b> (Used/Sessions)</td>
-				<td class="totalCol col-13" style="text-align: right;"><?php array_walk($topics, "_display_total"); ?></td>
+				<td class="totalCol col-13" style="text-align: right; white-space:nowrap;"><?php array_walk($topics, "_display_total"); ?></td>
 
   </tbody>
 </table>
