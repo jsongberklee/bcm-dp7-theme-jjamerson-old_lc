@@ -120,6 +120,7 @@ jQuery(document).ready(function($) {
 });
 jQuery(document).ready(function($){
 
+	// to memorized and keep the position of emergency bar.
 	var check_emergency_cookie = function(c){
 		var duration = 3600 * 3 * 1000; // 3 hours
 		//var duration = 60 * 1000; // for debugging
@@ -137,7 +138,6 @@ jQuery(document).ready(function($){
 			return true;
 		}
 	};
-
   if ( $('body').hasClass('emergency') ){
     var classes = $('body').attr('class').split(' ');
     for (i = 0; i < classes.length; i++) {
@@ -167,7 +167,6 @@ jQuery(document).ready(function($){
       emergencyBar.css('marginTop', '0');
       rememberCollapsed('remove', emergencyId);
 			$.cookie('mdev_emergency_duration', '', {path:'/', domain:'berklee.edu', expires: -1});
-			//$.cookie('mdev_emergency_duration', '', {path:'/', domain:'lb.dev', expires: -1}); // for debugging
     });
 
 		// the bar remains as closed
