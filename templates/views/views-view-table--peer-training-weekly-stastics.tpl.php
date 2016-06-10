@@ -19,15 +19,19 @@
  * @ingroup views_templates
  */
 
-function _missedSession($username, $bypassed, $attended, $cancelled){
+/*
+ * local utility functions
+ * should be moved to a custom module, but left here for coding readability and portability
+ */
+function _get_missed_session($username, $bypassed, $attended, $cancelled){
  if($bypassed) return $bypassed;
  if($username && !$attended && !$cancelled) return 'Missed';
  return '';
 }
-function _p_kv($v, $k){
+function _display_total($v, $k){
 		print $k.': <b>'.$v.'</b><br />';
 }
-function _walk_dates($v, $k){
+function _display_attendance_vs_total($v, $k){
 		print $k.': <b>'.$v['attend'].'/'.$v['total'].'</b><br />';
 }
 function _get_topic($rid){
@@ -46,115 +50,125 @@ function _update_topics($v, $k){
 	return $topics;
 }
 
-$nid; $rowsSorted = array(); $nodeCount; $userCount; $attendanceCount; $cancelCount; $confirmedCount; $totalFeedback; $missedCount; $availableCount = array('O' => 0, 'X' => '0'); $dates = array(); $times = array(); $trainers = array(); $topic; $topics = array();
+// temporary variables and arrays
+// for sorting and displaying total columns
+$nid;
+$nodeCount;
+$userCount;
+$attendanceCount;
+$cancelCount;
+$confirmedCount;
+$totalFeedback;
+$missedCount;
+$rowsSorted = array();
+$availableCount = array('O' => 0, 'X' => '0');
+$dates = array();
+$times = array();
+$trainers = array();
+$topic;
+$topics = array();
+
 foreach($rows as $rowCount => &$pRow){
 	$nid = strip_tags($pRow['nid']);
-
 	// sort topic totals
 	$topic = _get_topic($pRow['registration_id']);
 	$atop = array_map('trim', explode(',', $topic));
-	if(!empty($atop[0])){
-		$topics = end(array_map('_update_topics', $atop));
-	}
+	if(!empty($atop[0])) $topics = end(array_map('_update_topics', $atop));
 
+	// Reset each row CSS classes passed by Views module
 	$row_classes[$nid] = $row_classes[$rowCount]; unset($row_classes[$rowCount]);
 
 	$isAttended = $pRow['attended'] ? 1 : 0;
 	$attendanceCount = $attendanceCount + $isAttended;
+
 	$cancelCount = $cancelCount + ($pRow['cancelled'] ? 1 : 0);
+
 	$confirmedCount = $confirmedCount + ($pRow['confirmed'] ? 1 : 0);
-	$missedInfo = _missedSession($pRow['user_email'], $pRow['bypassed'], $pRow['attended'],$pRow['cancelled']);
+
+	$missedInfo = _get_missed_session($pRow['user_email'], $pRow['bypassed'], $pRow['attended'],$pRow['cancelled']);
 	$missedCount = $missedCount + ($missedInfo ? 1 : 0);
 
+	$userCount = $userCount + ($pRow['user_email'] ? 1 : 0);
+
+	// adding attendance to each day total
 	$sDate = strip_tags($pRow['field_date_1']);
 	$aDate = explode(' ', $sDate)[0];
 	$dates[$aDate]['attend'] += $isAttended;
 
+	// adding attendance to each time total
+	$sTime = strip_tags($pRow['field_date']);
+	$aTime = str_replace(':00', '', $sTime);
+	$times[$aTime]['attend'] += $isAttended;
+
+	// adding attendance to each trainer total
+	$sTrainer = $pRow['title'];
+	$aTrainer = explode(' ', $sTrainer)[0];
+	$trainers[$aTrainer]['attend'] += $isAttended;
+
 	if(array_key_exists($nid, $rowsSorted)){
+	// check if this registration belongs to any session/node in $rowsSorted
 
-		$userCount = $userCount + ($pRow['user_email'] ? 1 : 0);
 		$rowsSorted[$nid]['user_email'] .= '<br />'.$pRow['user_email'];
-
-		//$attendanceCount = $attendanceCount + ($pRow['attended'] ? 1 : 0);
 		$rowsSorted[$nid]['attended'] .= '<br />'.$pRow['attended'];
-
-		//$cancelCount = $cancelCount + ($pRow['cancelled'] ? 1 : 0);
 		$rowsSorted[$nid]['cancelled'] .= '<br />'.$pRow['cancelled'];
-
-		//$missedInfo = _missedSession($pRow['user_email'], $pRow['bypassed'], $pRow['attended'],$pRow['cancelled']);
-		//$missedCount = $missedCount + ($missedInfo ? 1 : 0);
 		$rowsSorted[$nid]['bypassed'] = '<br />'.$missedInfo;
-
-		//$confirmedCount = $confirmedCount + ($pRow['confirmed'] ? 1 : 0);
 		$rowsSorted[$nid]['confirmed'] .= '<br />'.$pRow['confirmed'];
-
 		$rowsSorted[$nid]['registration_id'] .= '<br />'.$topic;
-	}else{
 
+	}else{
+	// this registration doesn't belongs to any session/node in $rowsSorted
+
+		// create a new session array
 		$rowsSorted[$nid]['nid'] = $pRow['nid'];
+
+		// Reset each td CSS classes passed by Views module
 		$field_classes['nid'][$nid] = $field_classes['nid'][$rowCount]; unset($field_classes['nid'][$rowCount]);
 
-		if(array_key_exists($aDate, $dates)){
-			$dates[$aDate]['total']++;
-		}else{
-			$dates[$aDate]['total'] = 1;
-		}
-/*
-		$sDate = strip_tags($pRow['field_date_1']);
-		$rowsSorted[$nid]['field_date_1'] = $sDate;
-		$sDate = explode(' ', $sDate)[0];
-		if(array_key_exists($sDate, $dates)){
-			$dates[$sDate]['total']++;
-		}else{
-			$dates[$sDate]['total'] = 1;
-		}
-*/
+		// add total count to the date total column
+		if(array_key_exists($aDate, $dates))$dates[$aDate]['total']++; else $dates[$aDate]['total'] = 1;
 		$rowsSorted[$nid]['field_date_1'] = $sDate;
 		$field_classes['field_date_1'][$nid] = $field_classes['field_date_1'][$rowCount]; unset($field_classes['field_date_1'][$rowCount]);
 
-		$sTime = strip_tags($pRow['field_date']);
+		// add total count to the time total column
+		if(array_key_exists($aTime, $times)) $times[$aTime]['total']++; else $times[$aTime]['total'] = 1;
 		$rowsSorted[$nid]['field_date'] = $pRow['field_date'];
-		$sTime = str_replace(':00', '', $sTime);
-		if(array_key_exists($sTime, $times)) $times[$sTime]++; else $times[$sTime] = 1;
 		$field_classes['field_date'][$nid] = $field_classes['field_date'][$rowCount]; unset($field_classes['field_date'][$rowCount]);
 
-		$sTrainer = $pRow['title'];
+		// add total count to the trainer total column
+		if(array_key_exists($aTrainer, $trainers)) $trainers[$aTrainer]['total']++; else $trainers[$aTrainer]['total'] = 1;
 		$rowsSorted[$nid]['title'] = $sTrainer;
-		$sTrainer = explode(' ', $sTrainer)[0];
-		if(array_key_exists($sTrainer, $trainers)) $trainers[$sTrainer]++; else $trainers[$sTrainer] = 1;
 		$field_classes['title'][$nid] = $field_classes['title'][$rowCount]; unset($field_classes['title'][$rowCount]);
 
+		// add total count to the available column
 		$avalInfo = $pRow['registration_available_slots'] ? 'O' : 'X';
 		$avalInfo == 'O' ? $availableCount['O']++ : $availableCount['X']++;
 		$rowsSorted[$nid]['registration_available_slots'] = $avalInfo;
 		$field_classes['registration_available_slots'][$nid] = $field_classes['registration_available_slots'][$rowCount]; unset($field_classes['registration_available_slots'][$rowCount]);
 
-		$userCount = $userCount + ($pRow['user_email'] ? 1 : 0);
 		$rowsSorted[$nid]['user_email'] = $pRow['user_email'];
 		$field_classes['user_email'][$nid] = $field_classes['user_email'][$rowCount]; unset($field_classes['user_email'][$rowCount]);
 
-		//$attendanceCount = $attendanceCount + ($pRow['attended'] ? 1 : 0);
 		$rowsSorted[$nid]['attended'] = $pRow['attended'];
 		$field_classes['attended'][$nid] = $field_classes['attended'][$rowCount]; unset($field_classes['attended'][$rowCount]);
 
-		//$cancelCount = $cancelCount + ($pRow['cancelled'] ? 1 : 0);
 		$rowsSorted[$nid]['cancelled'] = $pRow['cancelled'];
 		$field_classes['cancelled'][$nid] = $field_classes['cancelled'][$rowCount]; unset($field_classes['cancelled'][$rowCount]);
 
-		//$missedInfo = _missedSession($pRow['user_email'], $pRow['bypassed'], $pRow['attended'],$pRow['cancelled']);
-		//$missedCount = $missedCount + ($missedInfo ? 1 : 0);
 		$rowsSorted[$nid]['bypassed'] = $missedInfo;
 		$field_classes['bypassed'][$nid] = $field_classes['bypassed'][$rowCount]; unset($field_classes['bypassed'][$rowCount]);
 
-		//$confirmedCount = $confirmedCount + ($pRow['confirmed'] ? 1 : 0);
 		$rowsSorted[$nid]['confirmed'] = $pRow['confirmed'];
 		$field_classes['confirmed'][$nid] = $field_classes['confirmed'][$rowCount]; unset($field_classes['confirmed'][$rowCount]);
 
 		$totalFeedback = $totalFeedback + $pRow['comment_count'];
 		$rowsSorted[$nid]['comment_count'] = $pRow['comment_count'];
 		$field_classes['comment_count'][$nid] = $field_classes['comment_count'][$rowCount]; unset($field_classes['comment_count'][$rowCount]);
+
+		// upcoming column
 		$rowsSorted[$nid]['views_conditional'] = $pRow['views_conditional'];
 		$field_classes['views_conditional'][$nid] = $field_classes['views_conditional'][$rowCount]; unset($field_classes['views_conditional'][$rowCount]);
+
+		// topics column
 		$rowsSorted[$nid]['registration_id'] = $topic;
 		$field_classes['registration_id'][$nid] = $field_classes['registration_id'][$rowCount]; unset($field_classes['registration_id'][$rowCount]);
 
@@ -162,8 +176,8 @@ foreach($rows as $rowCount => &$pRow){
 	}
 }
 
+// sort arrays alphabetically acending
 ksort($topics); ksort($trainers); ksort($times);
-dsm($dates);
 ?>
 <table <?php if ($classes) { print 'class="'. $classes . '" '; } ?><?php print $attributes; ?>>
    <?php if (!empty($title) || !empty($caption)) : ?>
@@ -193,9 +207,9 @@ dsm($dates);
 
 			<tr class="totalRow">
 				<td class="totalCol col-1"><b><?php print $nodeCount; ?></b> (Sessions)</td>
-				<td class="totalCol col-2"><?php array_walk($dates, "_walk_dates"); ?></td>
-				<td class="totalCol col-3"><?php array_walk($times, "_p_kv"); ?></td>
-				<td class="totalCol col-4"><?php array_walk($trainers, "_p_kv"); ?></td>
+				<td class="totalCol col-2" style="text-align: right;"><?php array_walk($dates, "_display_attendance_vs_total"); ?></td>
+				<td class="totalCol col-3" style="text-align: right;"><?php array_walk($times, "_display_attendance_vs_total"); ?></td>
+				<td class="totalCol col-4" style="text-align: right;"><?php array_walk($trainers, "_display_attendance_vs_total"); ?></td>
 				<td class="totalCol col-5"><b><?php print $availableCount['O']; ?></b> (Available)<br /><b><?php print $availableCount['X']; ?></b> (Used)</td>
 				<td class="totalCol col-6"><b><?php print $userCount; ?></b> (Users)</td>
 				<td class="totalCol col-7"><b><?php print $attendanceCount; ?></b> (Attended)</td>
@@ -204,7 +218,7 @@ dsm($dates);
 				<td class="totalCol col-10"><b><?php print $confirmedCount; ?></b> (Confirmed)</td>
 				<td class="totalCol col-11"><b><?php print $totalFeedback; ?></b> (Feedback)</td>
 				<td class="totalCol col-12"><b><?php print round(($availableCount['X'] / $nodeCount) * 100, 1) ?>%</b> (Used/Sessions)</td>
-				<td class="totalCol col-13"><?php array_walk($topics, "_p_kv"); ?></td>
+				<td class="totalCol col-13" style="text-align: right;"><?php array_walk($topics, "_display_total"); ?></td>
 
   </tbody>
 </table>
