@@ -949,6 +949,16 @@ body.page-manage-training-peer-statistics-weekly td{font-size: 85%; margin:0; pa
 body.page-manage-training-peer-statistics-weekly td.views-field-registration-id{white-space: nowrap; }
 body.page-manage-training-peer-statistics-weekly td > .tdd {border-top: solid 1px #ddd; height: 1px;}
 
+body.page-manage .region-content table{
+	display: block;
+	overflow-x: auto;
+	box-shadow: none;
+	border-spacing: 0;
+	border: none;
+}
+body.page-manage .region-content table tbody{
+}
+
 /***************************************************************
  * media queries
  ***************************************************************/

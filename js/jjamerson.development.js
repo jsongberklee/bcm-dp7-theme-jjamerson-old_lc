@@ -1421,8 +1421,7 @@ jQuery(document).ready(function($) {
 		var cellCount = $('td', firstRow).size();
 		$('td').each(function() {});
 		var tableWidth = $(this).width() + (parseInt($(this).css('padding').replace('px', '')) * 2) + (parseInt($(this).css('border-width').replace('px', '')) * 2);
-
-		if (tableWidth > $('.region-content').width()) {
+		if (tableWidth > $('.region-content').width() && $('body.page-manage').length == 0) {
 			$(this).addClass('oversized');
 			var headers = $('th', this);
 			for (var i = 1; i < headers.length + 1; i++) {
