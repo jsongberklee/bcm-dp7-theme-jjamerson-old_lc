@@ -224,9 +224,13 @@ table td,
   padding: 8px;
 }
 .view-feedback-messages .view-display-id-attachment_1{margin:12px; padding: 12px; background-color: rgba(0,197,17,0.03);}
+.page-manage-tutoring-weekly-session tr.pending, tr.odd.open, tr.even.open,
 .page-manage-tutoring-weekly-session tr.Pending, tr.odd.OPEN, tr.even.OPEN{background-color: rgba(255, 234, 0, 0.05);} /* yello */
+.page-manage-tutoring-weekly-session tr.not.eligible, tr.odd.processed, tr.even.processed,
 .page-manage-tutoring-weekly-session tr.Not.Eligible, tr.odd.PROCESSED, tr.even.PROCESSED{background-color: rgba(255, 0, 0, 0.05);} /* red */
+.page-manage-tutoring-weekly-session tr.scheduled, tr.odd.confirmed, tr.even.confirmed,
 .page-manage-tutoring-weekly-session tr.Scheduled, tr.odd.CONFIRMED, tr.even.CONFIRMED{background-color: rgba(14, 255, 0, 0.05);} /* green */
+.page-manage-tutoring-weekly-session tr.not.scheduled,
 .page-manage-tutoring-weekly-session tr.Not.Scheduled{background-color: none !important;}
 .page-manage-tutoring-weekly-session td.views-field-nothing{white-space: nowrap;}
 
