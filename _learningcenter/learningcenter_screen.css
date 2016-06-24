@@ -1262,6 +1262,7 @@ body.page-manage .region-content table tbody{
 
 @media (min-width: 768px) {
   .region-header #logo {
+		margin-left: 0;
   }
 
   .views-exposed-form .views-exposed-widgets > div{
