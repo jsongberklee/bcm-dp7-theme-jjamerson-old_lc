@@ -1609,4 +1609,12 @@ jQuery(document).ready(function($){
     }
   }
 });
-/**/
+
+/*
+Swap the logo to the mobile version 
+*/
+jQuery(window).bind("ready resize",function(e){
+	var $bcmW = jQuery(e.target).width();
+	if($bcmW < 768) jQuery('#logo>img').attr('src', '/sites/all/themes/jjamerson/logo-lc-mobile.png');
+	else jQuery('#logo>img').attr('src', '/sites/all/themes/jjamerson/logo.png');
+});

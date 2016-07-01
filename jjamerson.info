@@ -10,8 +10,8 @@ stylesheets[screen][] = stylesheets/jjamerson_screen.css
 stylesheets[screen][] = _learningcenter/learningcenter_screen.css
 
 ; Custom JS:
-;scripts[] = js/jjamerson.min.js
-scripts[] = js/jjamerson.development.js
+scripts[] = js/jjamerson.min.js
+;scripts[] = js/jjamerson.development.js
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ; Regions:

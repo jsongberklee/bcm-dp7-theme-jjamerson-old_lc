@@ -1291,7 +1291,7 @@ body.page-manage .region-content table tbody{
     position: absolute;
     left: 0;
     width: auto;
-    top: 0.8em;
+    top: 9px;
   }
 }
 @media (min-width: 1200px) {
@@ -1314,5 +1314,6 @@ body.page-manage .region-content table tbody{
 }
 @media (max-width: 767px) {
   .region-header #logo, .region-header #logo img {
-    height: 34px;
+    height: 40px;
+		
   }
