@@ -1,0 +1,2 @@
+# Add SVG type (by jsong)
+AddType image/svg+xml .svg .svgz
