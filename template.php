@@ -171,15 +171,15 @@ function jjamerson_preprocess_page(&$variables) {
 	// jsong
 	// quick dirty way of redirecting login required page to Onelogin site.
 	// to-do: find the better way of achiving this function.
-	//dpm($variables['node']->type);
-	if(node_is_page($variables['node']) && !user_is_logged_in()){
-		$nodeType = $variables['node']->type;
-		if($nodeType == 't_individual' || $nodeType == 't_class' || $nodeType == 't_core' || $nodeType == 'webform'){
-			$dest = drupal_get_destination();
-			drupal_goto('https://learningcenter.berklee.edu/onelogin_saml/sso?destination='.$dest['destination']);
+	if(!module_exists('bcm_sppstudent')){
+		if(node_is_page($variables['node']) && !user_is_logged_in()){
+			$nodeType = $variables['node']->type;
+			if($nodeType == 't_individual' || $nodeType == 't_class' || $nodeType == 't_core' || $nodeType == 'webform'){
+				$dest = drupal_get_destination();
+				drupal_goto('https://learningcenter.berklee.edu/onelogin_saml/sso?destination='.$dest['destination']);
+			}
 		}
 	}
-
 }
 
 function jjamerson_preprocess_region(&$region) {
