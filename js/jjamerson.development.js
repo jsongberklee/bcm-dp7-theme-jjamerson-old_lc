@@ -1611,10 +1611,15 @@ jQuery(document).ready(function($){
 });
 
 /*
-Swap the logo to the mobile version 
+Swap the logo and link to the mobile version 
 */
 jQuery(window).bind("ready resize",function(e){
 	var $bcmW = jQuery(e.target).width();
-	if($bcmW < 768) jQuery('#logo>img').attr('src', '/sites/all/themes/jjamerson/logo-lc-mobile.svg');
-	else jQuery('#logo>img').attr('src', '/sites/all/themes/jjamerson/logo.png');
+	if($bcmW < 768){
+		jQuery('#logo>img').attr('src', '/sites/all/themes/jjamerson/logo-lc-mobile.svg');
+		jQuery('#logo').attr('href', '/');
+	}else {
+		jQuery('#logo>img').attr('src', '/sites/all/themes/jjamerson/logo.png');
+		jQuery('#logo').attr('href', 'https://berklee.edu');
+	}
 });
