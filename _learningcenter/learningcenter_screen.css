@@ -964,6 +964,8 @@ body.page-manage .region-content table{
 body.page-manage .region-content table tbody{
 }
 
+body.no-sidebars.node-type-lc-contest #page-content{max-width: 960px; margin-left:auto; margin-right:auto;}
+
 /***************************************************************
  * media queries
  ***************************************************************/
@@ -1315,5 +1317,5 @@ body.page-manage .region-content table tbody{
 @media (max-width: 767px) {
   .region-header #logo, .region-header #logo img {
     height: 40px;
-		
+
   }
