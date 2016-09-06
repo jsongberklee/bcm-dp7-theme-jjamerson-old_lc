@@ -1162,6 +1162,13 @@ body.no-sidebars.node-type-lc-contest #page-content{max-width: 960px; margin-lef
 	.home-block-6,
 	.home-block-9,
 	.home-block-10{width: 25%}
+
+	.learningcenter > span.title > a{
+		font-size: 44px;
+	}
+	.learningcenter > span.title > a > i{
+		font-size: 32px;
+	}
 }
 @media (min-width: 874px) and (max-width: 979px){
 	body.one-sidebar.sidebar-second #page-content{width:70%; margin-left:2%; margin-right:0;}
