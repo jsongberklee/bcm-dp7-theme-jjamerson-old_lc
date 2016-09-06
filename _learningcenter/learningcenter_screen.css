@@ -282,9 +282,7 @@ td.views-field-value-21, td.views-field-value-22, td.views-field-value-23, td.vi
   max-width: 100%;
   height: auto;
 }
-.field-name-field-image img{
-	width: 80%;
-}
+
 body.page-event-past .views-row .views-field-field-lceventthumb{float:left; margin-right:12px;}
 body.page-event-past .views-row:after {visibility: hidden;display: block;font-size: 0;content: " ";clear: both;height: 0;}
 body.page-event-past .views-row { margin-bottom: 12px; border-top: 1px dotted #999; padding-top:12px;}
