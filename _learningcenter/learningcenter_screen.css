@@ -964,6 +964,20 @@ body.page-manage .region-content table tbody{
 
 body.no-sidebars.node-type-lc-contest #page-content{max-width: 960px; margin-left:auto; margin-right:auto;}
 
+#eposter .slides,
+#eposter{
+	margin: 0 0 0 0;
+	padding: 0 0 0 0;
+	width:100%;
+	height:100%;
+	background-color:#000;
+}
+#eposter .slides li{
+	margin:0 0 0 0;
+	padding: 0 0 0 0;
+}
+#fullscreen-jsong{width:100%;}
+
 /***************************************************************
  * media queries
  ***************************************************************/
