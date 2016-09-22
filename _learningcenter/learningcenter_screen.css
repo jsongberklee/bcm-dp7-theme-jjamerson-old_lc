@@ -979,6 +979,51 @@ body.no-sidebars.node-type-lc-contest #page-content{max-width: 960px; margin-lef
 #fullscreen-jsong{width:100%;}
 
 /***************************************************************
+ * TODAY corner
+ ***************************************************************/
+.fft-image-wrapper {
+    overflow: hidden;
+    position: relative;
+}
+
+.corner-text-wrapper {
+    -webkit-transform: rotate(45deg);
+    -moz-transform: rotate(45deg);
+    -ms-transform: rotate(45deg);
+    -o-transform: rotate(45deg);
+    transform: rotate(45deg);
+    clip: rect(0, 300px, 300px, 0);
+    height: 140px;
+    position: absolute;
+    right: 160px;
+    top: -140px;
+    z-index: 1;
+}
+
+.corner-text {
+    color: #fff;
+    background-color: #ff4300;
+    left: 0;
+    top: 0px;
+    display: block;
+    height: 144px;
+    position: absolute;
+    width: 306px;
+    z-index: 2;
+    font-size: 40px;
+    font-weight: 700;
+    padding-top: 90px;
+}
+
+.corner-text span {
+    position: relative;
+    left: 10px;
+    display: block;
+    text-align: center;
+    letter-spacing: 1px;
+}
+
+/***************************************************************
  * media queries
  ***************************************************************/
 @media (max-width: 479px){
