@@ -1028,22 +1028,23 @@ body.no-sidebars.node-type-lc-contest #page-content{max-width: 960px; margin-lef
  ***************************************************************/
 @media (min-width: 3000px){
 	body.page-eposter .corner-text-wrapper {
-	    clip: rect(0,800px,800px,0);
-	    height: 371px;
-	    right: 126px;
-	    top: -636px;
+		clip: rect(0,1500px,1500px,0);
+		height: 0px;
+		right: -6px;
+		top: -1000px;
 	}
 	body.page-eposter .corner-text {
-		    height: 844px;
-		    width: 1006px;
-		    font-size: 120px;
-		    padding-top: 700px;
+	    height: 1344px;
+	    width: 1506px;
+	    font-size: 240px;
+	    padding-top: 1200px;
 	}
 	body.page-eposter .corner-text span {
-		    right: 120px;
-			padding-right: 200px;
+	    right: 120px;
+	    padding-right: 144px;
 	}
 }
+
 
 /***************************************************************
  * media queries
