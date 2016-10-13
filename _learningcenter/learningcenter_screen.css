@@ -1024,6 +1024,28 @@ body.no-sidebars.node-type-lc-contest #page-content{max-width: 960px; margin-lef
 }
 
 /***************************************************************
+ * media queries for Today banner notification on UHD display
+ ***************************************************************/
+@media (min-width: 3000px){
+	body.page-eposter .corner-text-wrapper {
+	    clip: rect(0,800px,800px,0);
+	    height: 371px;
+	    right: 126px;
+	    top: -636px;
+	}
+	body.page-eposter .corner-text {
+		    height: 844px;
+		    width: 1006px;
+		    font-size: 120px;
+		    padding-top: 700px;
+	}
+	body.page-eposter .corner-text span {
+		    right: 120px;
+			padding-right: 200px;
+	}
+}
+
+/***************************************************************
  * media queries
  ***************************************************************/
 @media (max-width: 479px){
