@@ -1023,6 +1023,12 @@ body.no-sidebars.node-type-lc-contest #page-content{max-width: 960px; margin-lef
     letter-spacing: 1px;
 }
 
+
+/***************************************************************
+ * ajax throbber display control
+ ***************************************************************/
+body.page-eposter .ajax-progress{position:absolute;}
+
 /***************************************************************
  * media queries for Today banner notification on UHD display
  ***************************************************************/
@@ -1088,9 +1094,9 @@ body.no-sidebars.node-type-lc-contest #page-content{max-width: 960px; margin-lef
 	  font-size: 20px;
 	  margin-bottom: -2px;
 	}
-	
-	/* TODAY corner in mobile phone view **/	
-	.corner-text-wrapper {	   
+
+	/* TODAY corner in mobile phone view **/
+	.corner-text-wrapper {
 	    clip: rect(0, 300px, 300px, 0);
 	    height: 40px;
 	    right: 60px;
