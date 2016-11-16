@@ -1050,6 +1050,24 @@ body.page-eposter .ajax-progress{position:absolute;}
 	    padding-right: 144px;
 	}
 }
+@media (min-width: 1900px) and (max-width: 3000px){
+	body.page-eposter .corner-text-wrapper {
+		clip: rect(0,1500px,1500px,0);
+		height: 0px;
+		right: -6px;
+		top: -1000px;
+	}
+	body.page-eposter .corner-text {
+		height: 965px;
+		width: 1387px;
+		font-size: 86px;
+		padding-top: 885px;;
+	}
+	body.page-eposter .corner-text span {
+	    right: 120px;
+	    padding-right: 1px;
+	}
+}
 
 
 /***************************************************************
